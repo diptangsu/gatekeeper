@@ -26,8 +26,8 @@ urlpatterns = [
 
 '''
 entry
-manager
+. manager
 . scanner
 . reception
-owner
+. owner
 '''
