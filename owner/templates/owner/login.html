@@ -1,0 +1,59 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+
+
+{% block content %}
+    <!-- Main wrapper  -->
+    <div id="main-wrapper">
+
+        <div class="unix-login">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4">
+                        <div class="login-content card">
+                            <div class="login-form">
+                                <h4>Login</h4>
+                                <form>
+                                    <div class="form-group">
+                                        <label>Select Category</label><br>
+                                        <label>
+                                            <select class="custom-select form-group">
+                                                <option disabled="disabled" selected="selected">--Select--</option>
+                                                <option value="owner">Owner</option>
+                                                <option value="manager">Manager</option>
+                                                <option value="receptionist">Receptionist</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email address</label>
+                                        <input type="email" class="form-control" placeholder="Email" name="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="password" class="form-control" placeholder="Password"
+                                               name="password">
+                                    </div>
+                                    <div class="checkbox">
+                                        <label class="pull-right">
+                                            <a href="#">Forgotten Password?</a>
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">Sign in
+                                    </button>
+                                    {% comment %}<div class="register-link m-t-15 text-center">
+                                        <p>Don't have account ? <a href="#"> Sign Up Here</a></p>
+                                    </div>{% endcomment %}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- End Wrapper -->
+{% endblock %}

@@ -388,9 +388,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    /**
-	     * Runs Holder with options. By default runs Holder on all images with "holder.js" in their source attributes.
+	     * Runs Holder with options. By default runs Holder on all img with "holder.js" in their source attributes.
 	     *
-	     * @param {Object} userOptions Options object, can contain domain, themes, images, and bgnodes properties
+	     * @param {Object} userOptions Options object, can contain domain, themes, img, and bgnodes properties
 	     */
 	    run: function(userOptions) {
 	        //todo: split processing into separate queues
@@ -1252,7 +1252,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Iterates through all current invisible images, and if they're visible, renders them and removes them from further checks. Runs every animation frame.
+	 * Iterates through all current invisible img, and if they're visible, renders them and removes them from further checks. Runs every animation frame.
 	 *
 	 * @private
 	 */
@@ -1294,7 +1294,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Sets a unique ID for an image detected to be invisible and adds it to the map of invisible images checked by visibilityCheck
+	 * Sets a unique ID for an image detected to be invisible and adds it to the map of invisible img checked by visibilityCheck
 	 *
 	 * @private
 	 * @param el Invisible DOM element

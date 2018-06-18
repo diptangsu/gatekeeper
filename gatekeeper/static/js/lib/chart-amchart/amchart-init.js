@@ -600,7 +600,7 @@ $(document).ready(function() {
 
 
 
-    //Column chart with images on top
+    //Column chart with img on top
     var chart = AmCharts.makeChart("column", {
         "type": "serial",
         "theme": "light",
@@ -608,27 +608,27 @@ $(document).ready(function() {
             "name": "Salauddin",
             "points": 35654,
             "color": "#428bca",
-            "bullet": "assets/plugins/amcharts/images/A04.png"
+            "bullet": "assets/plugins/amcharts/img/A04.png"
         }, {
             "name": "Tuhin",
             "points": 65456,
             "color": "#03A9F5",
-            "bullet": "assets/plugins/amcharts/images/C02.png"
+            "bullet": "assets/plugins/amcharts/img/C02.png"
         }, {
             "name": "Jahangir",
             "points": 45724,
             "color": "#FFB61E",
-            "bullet": "assets/plugins/amcharts/images/D02.png"
+            "bullet": "assets/plugins/amcharts/img/D02.png"
         }, {
             "name": "Tanjil",
             "points": 13654,
             "color": "#62d0f1",
-            "bullet": "assets/plugins/amcharts/images/E01.png"
+            "bullet": "assets/plugins/amcharts/img/E01.png"
         }, {
             "name": "Naeem",
             "points": 53654,
             "color": "#E5343D",
-            "bullet": "assets/plugins/amcharts/images/A04.png"
+            "bullet": "assets/plugins/amcharts/img/A04.png"
         }],
         "valueAxes": [{
             "maximum": 80000,

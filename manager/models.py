@@ -6,4 +6,4 @@ class Manager(models.Model):
     middle_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     date_of_birth = models.DateField()
-    picture = models.ImageField(upload_to='images/')
+    picture = models.ImageField(upload_to='img/')

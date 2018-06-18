@@ -2,8 +2,11 @@ from django.shortcuts import render
 
 
 def index(request):
-    return render(request, 'owner/index.html')
+    return render(request, 'owner/login.html')
 
 
 def login(request):
-    pass
+    if request.method == 'POST':
+        pass
+    else:
+        return render(request, 'owner/login.html')

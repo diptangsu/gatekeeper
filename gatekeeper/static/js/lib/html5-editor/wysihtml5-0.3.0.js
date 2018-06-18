@@ -1937,7 +1937,7 @@ rangy.createModule("DomUtil", function(api, module) {
     // Gets the boundary of a TextRange expressed as a node and an offset within that node. This function started out as
     // an improved version of code found in Tim Cameron Ryan's IERange (http://code.google.com/p/ierange/) but has
     // grown, fixing problems with line breaks in preformatted text, adding workaround for IE TextRange bugs, handling
-    // for inputs and images, plus optimizations.
+    // for inputs and img, plus optimizations.
     function getTextRangeBoundaryPosition(textRange, wholeRangeContainerElement, isStart, isCollapsed) {
         var workingRange = textRange.duplicate();
 
@@ -1954,7 +1954,7 @@ rangy.createModule("DomUtil", function(api, module) {
 
 
 
-        // Deal with nodes that cannot "contain rich HTML markup". In practice, this means form inputs, images and
+        // Deal with nodes that cannot "contain rich HTML markup". In practice, this means form inputs, img and
         // similar. See http://msdn.microsoft.com/en-us/library/aa703950%28VS.85%29.aspx
         if (!containerElement.canHaveHTML) {
             return new DomPosition(containerElement.parentNode, dom.getNodeIndex(containerElement));
@@ -3624,7 +3624,7 @@ wysihtml5.browser = (function() {
     },
 
     /**
-     * When clicking on images in IE, Opera and Firefox, they are selected, which makes it easy to interact with them.
+     * When clicking on img in IE, Opera and Firefox, they are selected, which makes it easy to interact with them.
      * Chrome and Safari both don't support this
      */
     canSelectImagesInContentEditable: function() {
@@ -5015,7 +5015,7 @@ wysihtml5.dom.parse = (function() {
     if (nodeName == "IMG" && attributeName == "src" && _isLoadedImage(node) === true) {
       // Get 'src' attribute value via object property since this will always contain the
       // full absolute url (http://...)
-      // this fixes a very annoying bug in firefox (ver 3.6 & 4) and IE 8 where images copied from the same host
+      // this fixes a very annoying bug in firefox (ver 3.6 & 4) and IE 8 where img copied from the same host
       // will have relative paths, which the sanitizer strips out (see attributeCheckMethods.url)
       return node.src;
     } else if (HAS_GET_ATTRIBUTE_BUG && "outerHTML" in node) {
@@ -8289,7 +8289,7 @@ wysihtml5.views.View = Base.extend(
           "body.placeholder { color: graytext !important; }" : 
           "body.placeholder { color: #a9a9a9 !important; }",
         "body[disabled]   { background-color: #eee !important; color: #999 !important; cursor: default !important; }",
-        // Ensure that user see's broken images and can delete them
+        // Ensure that user see's broken img and can delete them
         "img:-moz-broken  { -moz-force-broken-image-icon: 1; height: 24px; width: 24px; }"
       ];
   
@@ -8547,7 +8547,7 @@ wysihtml5.views.View = Base.extend(
       setTimeout(function() { that.parent.fire("newword:composer"); }, 0);
     });
 
-    // --------- Make sure that images are selected when clicking on them ---------
+    // --------- Make sure that img are selected when clicking on them ---------
     if (!browser.canSelectImagesInContentEditable()) {
       dom.observe(element, "mousedown", function(event) {
         var target = event.target;
@@ -8568,7 +8568,7 @@ wysihtml5.views.View = Base.extend(
       }
     });
 
-    // --------- Make sure that when pressing backspace/delete on selected images deletes the image and it's anchor ---------
+    // --------- Make sure that when pressing backspace/delete on selected img deletes the image and it's anchor ---------
     dom.observe(element, "keydown", function(event) {
       var target  = that.selection.getSelectedNode(true),
           keyCode = event.keyCode,
@@ -8587,7 +8587,7 @@ wysihtml5.views.View = Base.extend(
       }
     });
 
-    // --------- Show url in tooltip when hovering links or images ---------
+    // --------- Show url in tooltip when hovering links or img ---------
     var titlePrefixes = {
       IMG: "Image: ",
       A:   "Link: "
@@ -9398,7 +9398,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
     stylesheets:          [],
     // Placeholder text to use, defaults to the placeholder attribute on the textarea element
     placeholderText:      undef,
-    // Whether the composer should allow the user to manually resize images, tables etc.
+    // Whether the composer should allow the user to manually resize img, tables etc.
     allowObjectResizing:  true,
     // Whether the rich text editor should be rendered on touch devices (wysihtml5 >= 0.3.0 comes with basic support for iOS 5)
     supportTouchDevices:  true

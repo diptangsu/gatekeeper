@@ -242,7 +242,7 @@
         _style.cursor = p;
         if (_style.cursor == p) return p;
       }
-      return 'url(https://cdnjs.cloudflare.com/ajax/libs/slider-pro/1.3.0/css/images/openhand.cur),n-resize'; // thanks to https://cdnjs.com/ for the openhand cursor!
+      return 'url(https://cdnjs.cloudflare.com/ajax/libs/slider-pro/1.3.0/css/img/openhand.cur),n-resize'; // thanks to https://cdnjs.com/ for the openhand cursor!
     }
     d.cursorgrabvalue = detectCursorGrab();
 
