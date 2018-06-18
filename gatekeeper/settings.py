@@ -123,7 +123,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'gatekeeper/static/'),
+    os.path.join(BASE_DIR, 'gatekeeper/static'),
 ]
 
 STATIC_URL = '/static/'
