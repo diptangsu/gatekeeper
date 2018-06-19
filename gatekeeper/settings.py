@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'reception.apps.ReceptionConfig',
     'owner.apps.OwnerConfig',
     'manager.apps.ManagerConfig',
+    'visitors.apps.VisitorsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
