@@ -10,7 +10,6 @@ def index(request):
 
 
 def login(request):
-    # TODO: if logged in, redirect to 'owner/dashboard'
     if 'owner_id' in request.session:
         return redirect('owner-dashboard')
     elif request.method == 'POST':
@@ -21,8 +20,16 @@ def login(request):
             request.session['owner_id'] = owner.id
             return redirect('owner-dashboard')
         except Owner.DoesNotExist:
-            messages.add_message(request, messages.INFO, 'Wrong Email / Password')
-            return render(request, 'owner/login.html', {'error': 'Wrong email or password'})
+            try:
+                Owner.objects.get(email=email)
+            except Owner.DoesNotExist:
+                error = 'Your email does not belong to an account'
+                messages.add_message(request, messages.INFO, error)
+                return render(request, 'owner/login.html')
+            else:
+                error = 'You entered an incorrect password'
+                messages.add_message(request, messages.INFO, error)
+                return render(request, 'owner/login.html')
     else:
         return render(request, 'owner/login.html')
 
@@ -31,7 +38,7 @@ def dashboard(request):
     if 'owner_id' in request.session:
         return render(request, 'owner/dashboard.html')
     else:
-        messages.add_message(request, messages.WARNING, 'You need to be logged in to access this page')
+        messages.add_message(request, messages.WARNING, 'Please login to visit the dashboard')
         return redirect('owner-login')
 
 

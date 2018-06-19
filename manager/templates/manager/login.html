@@ -1,0 +1,81 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+    <!-- Main wrapper  -->
+    <div id="main-wrapper">
+
+        <div class="unix-login">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4">
+                        <div class="login-content card">
+                            <div class="login-form">
+                                <h4>Manager Login</h4>
+                                <form method="post" action="{% url 'manager-login' %}">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label>Email address</label>
+                                        <input type="email" class="form-control" placeholder="Email" name="email"
+                                               required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="password" class="form-control" placeholder="Password"
+                                               name="password" required>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label class="pull-right">
+                                            <a href="#">Forgotten Password?</a>
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">Sign in
+                                    </button>
+                                    {% comment %}<div class="register-link m-t-15 text-center">
+                                        <p>Don't have account ? <a href="#"> Sign Up Here</a></p>
+                                    </div>{% endcomment %}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- End Wrapper -->
+{% endblock %}
+
+{% block toast %}
+    <script>
+        {% if messages %}
+            {% for message in messages %}
+
+                $(document).ready(function () {
+                    toastr.error('{{ message }}', 'Error', {
+                        timeOut: 5000,
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": true,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut",
+                        "tapToDismiss": false
+                    })
+                });
+
+            {% endfor %}
+        {% endif %}
+    </script>
+{% endblock %}
