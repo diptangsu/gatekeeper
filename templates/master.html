@@ -15,6 +15,7 @@
     <!-- Bootstrap Core CSS -->
     <link href="{% static 'css/lib/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
     <!-- Custom CSS -->
+    <link href="{% static 'css/lib/toastr/toastr.min.css' %}" rel="stylesheet">
 
     <link href="{% static 'css/lib/calendar2/semantic.ui.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/lib/calendar2/pignose.calendar.min.css' %}" rel="stylesheet">
@@ -84,6 +85,14 @@
 <!-- scripit init-->
 
 <script src="{% static 'js/scripts.js' %}"></script>
+
+<script src="{% static 'js/lib/toastr/toastr.min.js' %}"></script>
+<!-- scripit init-->
+<script src="{% static 'js/lib/toastr/toastr.init.js' %}"></script>
+
+{% block toast %}
+
+{% endblock %}
 
 </body>
 
