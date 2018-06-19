@@ -24,7 +24,7 @@ def login(request):
             else:
                 error = 'You entered an incorrect password'
                 messages.add_message(request, messages.INFO, error)
-                return render(request, 'manager/login.html')
+                return render(request, 'manager/login.html', {'email': request.POST.get('email', None)})
     else:
         return render(request, 'manager/login.html')
 
