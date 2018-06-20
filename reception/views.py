@@ -31,7 +31,8 @@ def login(request):
 
 def dashboard(request):
     if 'receptionist_id' in request.session:
-        return render(request, 'reception/dashboard.html')
+        receptionist = Receptionist.objects.get(id=request.session.get('receptionist_id'))
+        return render(request, 'reception/dashboard.html', {'receptionist': receptionist})
     else:
         messages.add_message(request, messages.WARNING, 'Please login to visit the dashboard')
         return redirect('reception-login')
