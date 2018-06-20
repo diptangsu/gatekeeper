@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from .models import Receptionist
+from scanner.models import Scan
 from django.contrib import messages
+from time import time
 
 
 def login(request):
@@ -44,3 +46,42 @@ def logout(request):
         return redirect('reception-login')
     else:
         raise Http404
+
+
+def add_visitor(request):
+    if 'receptionist_id' not in request.session:
+        messages.add_message(request, messages.WARNING, 'Please login to add a new visitor')
+        return redirect('reception-login')
+    if request.method == 'GET':
+        return render(request, 'reception/addVisitor.html')
+    else:
+        pass
+
+
+def get_card_id(request):
+    if 'receptionist_id' not in request.session:
+        messages.add_message(request, messages.WARNING, 'Please login to add a new visitor')
+        return redirect('reception-login')
+    if request.method == 'POST':  # TODO: change to GET
+        messages.add_message(request, messages.WARNING, 'Visitor details must be entered before a card can be issued')
+        return redirect('add-visitor')
+    else:  # TODO: POST visitor data to this url
+        scanned = False
+        card = None
+        start_scan = time()
+        while True:
+            end_scan = time()
+            if end_scan - start_scan > 5:
+                break
+            cards = Scan.objects.all()
+            no_of_cards = len(cards)
+            if no_of_cards == 0:
+                continue
+            card = cards[no_of_cards - 1]
+            card.delete()
+            scanned = True
+            break
+        if scanned:  # TODO: save visitor object from here and redirect to dashboard
+            return HttpResponse(card.uid)
+        else:  # TODO: return to scan page with error toast saying scan timeout
+            return HttpResponse('Please scan a card')

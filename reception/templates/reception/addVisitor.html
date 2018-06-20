@@ -2,6 +2,140 @@
 
 {% block content %}
 
+    <div id="main-wrapper" style="background-color: #9fff96;">
+        <div class="container-fluid">
+            <!-- Start Page Content -->
+            <div class="row" style="color: #454545;">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8">
+                    <div class="card card-outline-info">
+                        <div class="card-header">
+                            <h4 class="m-b-0 text-white">Add a visitor</h4>
+                        </div>
+                        <div class="card-body">
+                            <form action="#">
+                                <div class="form-body">
+                                    <h3 class="card-title m-t-15">Visitor Info</h3>
+                                    <hr>
+                                    <div class="row p-t-20">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">First Name</label>
+                                                <input type="text" id="firstName" class="form-control"
+                                                       placeholder="John">
+                                                <small class="form-control-feedback"> *Enter the first name</small>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Middle Name</label>
+                                                <input type="text" id="middleName" class="form-control"
+                                                       placeholder="">
+                                                <small class="form-control-feedback"> Enter the middle name</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Last Name</label>
+                                                <input type="text" id="lastName" class="form-control"
+                                                       placeholder="Doe">
+                                                <small class="form-control-feedback"> *Enter the last name</small>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                    <!--/row-->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Gender</label>
+                                                <select class="form-control custom-select" name="gender">
+                                                    <option value="" disabled selected>--Gender--</option>
+                                                    <option value="m">Male</option>
+                                                    <option value="f">Female</option>
+                                                    <option value="o">Other</option>
+                                                </select>
+                                                <small class="form-control-feedback"> *Select your gender</small>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Date of Birth</label>
+                                                <input type="date" class="form-control" placeholder="dd/mm/yyyy">
+                                                <small class="form-control-feedback"> *Select date of birth</small>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                    <h3 class="box-title m-t-40">Address</h3>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12 ">
+                                            <div class="form-group">
+                                                <label>Street</label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>City</label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>State</label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                    <!--/row-->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Post Code</label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Country</label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <button type="submit" class="btn btn-success btn-lg">
+                                                <i class="fa fa-check"></i> Next
+                                            </button>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-2">
+                                            <button type="button" class="btn btn-inverse btn-lg">
+                                                <i class="fa fa-window-close"></i> Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
+            </div>
+        </div>
+        <!-- End PAge Content -->
+    </div>
 
 {% endblock %}

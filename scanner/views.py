@@ -8,4 +8,4 @@ def submit(request, uid):
         s = Scan()
         s.uid = user_id
         s.save()
-    return HttpResponse(user_id)
+    return HttpResponse(uid)
