@@ -23,6 +23,9 @@
     <link href="{% static 'css/lib/owl.theme.default.min.css' %}" rel="stylesheet"/>
     <link href="{% static 'css/helper.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/lib/sweetalert/sweetalert.css' %}" rel="stylesheet">
+
 </head>
 
 <body class="fix-header fix-sidebar">
@@ -90,7 +93,11 @@
 <!-- scripit init-->
 <script src="{% static 'js/lib/toastr/toastr.init.js' %}"></script>
 
-{% block toast %}
+<script src="{% static 'js/lib/sweetalert/sweetalert.min.js' %}"></script>
+<script src="{% static 'js/lib/sweetalert/sweetalert.init.js' %}"></script>
+
+
+{% block js %}
 
 {% endblock %}
 

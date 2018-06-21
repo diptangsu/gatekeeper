@@ -112,17 +112,40 @@
                                         </div>
                                         <!--/span-->
                                     </div>
+
+                                    <h3 class="box-title m-t-40">Scan Card</h3>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Card ID</label>
+                                                <input type="text" class="form-control"
+                                                       placeholder="Scanned Card ID"
+                                                       disabled id="scanned-card">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="sweetalert m-t-15">
+                                                <br>
+                                                <button class="btn btn-info btn sweet-ajax" id="btn-scan">
+                                                    <i class="fa fa-id-card-o"></i> Scan Card
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                                <hr>
                                 <div class="form-actions">
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <button type="submit" class="btn btn-success btn-lg">
-                                                <i class="fa fa-check"></i> Next
+                                                <i class="fa fa-check"></i> Add Visitor
                                             </button>
                                         </div>
                                         <div class="col-lg-3"></div>
                                         <div class="col-lg-2">
-                                            <button type="button" class="btn btn-inverse btn-lg">
+                                            <button type="button" class="btn btn-inverse btn-lg"
+                                                    onclick="location.href = {% url 'reception-dashboard' %};">
                                                 <i class="fa fa-window-close"></i> Cancel
                                             </button>
                                         </div>
@@ -138,4 +161,45 @@
         <!-- End PAge Content -->
     </div>
 
+{% endblock %}
+
+
+{% block js %}
+    <script>
+        document.querySelector('.sweet-ajax').onclick = function () {
+            swal({
+                    title: "Scan Card !!",
+                    text: "Please scan a card and press OK to get the scanned ID !!",
+                    type: "info",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                },
+                function () {
+                    $.ajax({
+                        url: "{% url 'scan-card' %}",
+                        type: "post", // or "get"
+                        data: {
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
+                        success: function (data) {
+                            if (data.uid != null) {
+                                setTimeout(function () {
+                                    swal("Success", "Scanned card has been registered", "success");
+                                    document.getElementById("scanned-card").value = data.uid;
+                                    document.getElementById("btn-scan").disabled = true;
+                                }, 4000);
+                            }
+                            else {
+                                setTimeout(function () {
+                                    sweetAlert("Error", "Scanned card could not be found", "error");
+                                    {#document.getElementById("scanned-card").value = "Please try again bhai";#}
+                                }, 3000);
+                            }
+                        }
+                    });
+                });
+        };
+
+    </script>
 {% endblock %}

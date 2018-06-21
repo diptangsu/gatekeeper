@@ -4,6 +4,7 @@ from .models import Receptionist
 from scanner.models import Scan
 from django.contrib import messages
 from time import time
+import json
 
 
 def login(request):
@@ -58,7 +59,7 @@ def add_visitor(request):
         pass
 
 
-def get_card_id(request):
+def get_card_id(request):  # TODO: add visitor id to session instead of using POST
     if 'receptionist_id' not in request.session:
         messages.add_message(request, messages.WARNING, 'Please login to add a new visitor')
         return redirect('reception-login')
@@ -71,7 +72,7 @@ def get_card_id(request):
         start_scan = time()
         while True:
             end_scan = time()
-            if end_scan - start_scan > 5:
+            if end_scan - start_scan > 2:
                 break
             cards = Scan.objects.all()
             no_of_cards = len(cards)
@@ -84,4 +85,27 @@ def get_card_id(request):
         if scanned:  # TODO: save visitor object from here and redirect to dashboard
             return HttpResponse(card.uid)
         else:  # TODO: return to scan page with error toast saying scan timeout
-            return HttpResponse('Please scan a card')
+            return render(request, 'reception/scanCard.html')
+
+
+def scan_card(request):
+    if request.method == 'POST':
+        data = {'uid': None}
+        start_scan = time()
+        while True:
+            end_scan = time()
+            if end_scan - start_scan > 3:
+                break
+            cards = Scan.objects.all()
+            no_of_cards = len(cards)
+            if no_of_cards == 0:
+                continue
+            card = cards[no_of_cards - 1]
+            data['uid'] = card.uid
+            card.delete()
+            break
+
+        return HttpResponse(json.dumps(data), content_type="application/json")
+
+    else:
+        raise Http404

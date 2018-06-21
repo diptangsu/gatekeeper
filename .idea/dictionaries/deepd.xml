@@ -5,6 +5,8 @@
       <w>arey</w>
       <w>bhai</w>
       <w>contnet</w>
+      <w>csrfmiddlewaretoken</w>
+      <w>csrftoken</w>
       <w>devider</w>
       <w>dropdown</w>
       <w>ecommerce</w>
@@ -26,6 +28,7 @@
       <w>slimscroll</w>
       <w>slimscrollbar</w>
       <w>stickey</w>
+      <w>sweetalert</w>
       <w>textarea</w>
       <w>toastr</w>
       <w>toggler</w>
