@@ -13,7 +13,9 @@
                             <h4 class="m-b-0 text-white">Add a visitor</h4>
                         </div>
                         <div class="card-body">
+
                             <form action="#">
+
                                 <div class="form-body">
                                     <h3 class="card-title m-t-15">Visitor Info</h3>
                                     <hr>
@@ -22,7 +24,7 @@
                                             <div class="form-group">
                                                 <label class="control-label">First Name</label>
                                                 <input type="text" id="firstName" class="form-control"
-                                                       placeholder="John">
+                                                       placeholder="John" name="first_name" required>
                                                 <small class="form-control-feedback"> *Enter the first name</small>
                                             </div>
                                         </div>
@@ -31,7 +33,7 @@
                                             <div class="form-group">
                                                 <label class="control-label">Middle Name</label>
                                                 <input type="text" id="middleName" class="form-control"
-                                                       placeholder="">
+                                                       placeholder="" name="middle_name">
                                                 <small class="form-control-feedback"> Enter the middle name</small>
                                             </div>
                                         </div>
@@ -39,7 +41,7 @@
                                             <div class="form-group">
                                                 <label class="control-label">Last Name</label>
                                                 <input type="text" id="lastName" class="form-control"
-                                                       placeholder="Doe">
+                                                       placeholder="Doe" name="last_name" required>
                                                 <small class="form-control-feedback"> *Enter the last name</small>
                                             </div>
                                         </div>
@@ -50,7 +52,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label">Gender</label>
-                                                <select class="form-control custom-select" name="gender">
+                                                <select class="form-control custom-select" name="gender" required title="gender">
                                                     <option value="" disabled selected>--Gender--</option>
                                                     <option value="m">Male</option>
                                                     <option value="f">Female</option>
@@ -63,7 +65,8 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label">Date of Birth</label>
-                                                <input type="date" class="form-control" placeholder="dd/mm/yyyy">
+                                                <input type="date" class="form-control" placeholder="dd/mm/yyyy"
+                                                       name="dob" required>
                                                 <small class="form-control-feedback"> *Select date of birth</small>
                                             </div>
                                         </div>
@@ -75,7 +78,7 @@
                                         <div class="col-md-12 ">
                                             <div class="form-group">
                                                 <label>Street</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" name="street" title="street">
                                             </div>
                                         </div>
                                     </div>
@@ -83,14 +86,14 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>City</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" name="city" title="city">
                                             </div>
                                         </div>
                                         <!--/span-->
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>State</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" name="state" title="state">
                                             </div>
                                         </div>
                                         <!--/span-->
@@ -99,15 +102,15 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Post Code</label>
-                                                <input type="text" class="form-control">
+                                                <label>PIN Code</label>
+                                                <input type="text" class="form-control" name="pincode" title="pincode">
                                             </div>
                                         </div>
                                         <!--/span-->
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Country</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" name="country" title="country">
                                             </div>
                                         </div>
                                         <!--/span-->
@@ -120,8 +123,9 @@
                                             <div class="form-group">
                                                 <label>Card ID</label>
                                                 <input type="text" class="form-control"
-                                                       placeholder="Scanned Card ID"
-                                                       disabled id="scanned-card">
+                                                       placeholder="Scanned Card ID" required
+                                                       readonly id="scanned-card" name="cardID">
+                                                <small class="form-control-feedback"> *Scan a card and click the button to add the ID</small>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -130,6 +134,23 @@
                                                 <button class="btn btn-info btn sweet-ajax" id="btn-scan">
                                                     <i class="fa fa-id-card-o"></i> Scan Card
                                                 </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h3 class="box-title m-t-40">Company to Visit</h3>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Company</label>
+                                                <select class="form-control custom-select" name="company" required title="company">
+                                                    <option value="" disabled selected>--Company--</option>
+                                                    {% for company in companies %}
+                                                        <option value="{{ company.id }}">{{ company.company_name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <small class="form-control-feedback"> *Select the company the visitor wants to visit</small>
                                             </div>
                                         </div>
                                     </div>
@@ -155,7 +176,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <!-- End PAge Content -->
@@ -188,12 +208,11 @@
                                     swal("Success", "Scanned card has been registered", "success");
                                     document.getElementById("scanned-card").value = data.uid;
                                     document.getElementById("btn-scan").disabled = true;
-                                }, 4000);
+                                }, 3000);
                             }
                             else {
                                 setTimeout(function () {
                                     sweetAlert("Error", "Scanned card could not be found", "error");
-                                    {#document.getElementById("scanned-card").value = "Please try again bhai";#}
                                 }, 3000);
                             }
                         }
