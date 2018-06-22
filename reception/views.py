@@ -58,8 +58,8 @@ def add_visitor(request):
         companies = Manager.objects.all()
         return render(request, 'reception/addVisitor.html', {'companies': companies})
     else:
-        # TODO: save visitor data
         visitor = Visitor()
+        # TODO: save visitor data
 
         visitor.save()
 

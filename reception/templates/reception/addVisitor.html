@@ -52,7 +52,8 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label">Gender</label>
-                                                <select class="form-control custom-select" name="gender" required title="gender">
+                                                <select class="form-control custom-select" name="gender" required
+                                                        title="gender">
                                                     <option value="" disabled selected>--Gender--</option>
                                                     <option value="m">Male</option>
                                                     <option value="f">Female</option>
@@ -68,6 +69,23 @@
                                                 <input type="date" class="form-control" placeholder="dd/mm/yyyy"
                                                        name="dob" required>
                                                 <small class="form-control-feedback"> *Select date of birth</small>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Phone Number</label>
+                                                <input type="text" class="form-control" name="phone1" title="phone1" required>
+                                                <small class="form-control-feedback"> *Enter the phone number</small>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Phone Number 2</label>
+                                                <input type="text" class="form-control" name="phone2" title="phone2">
                                             </div>
                                         </div>
                                         <!--/span-->
@@ -125,7 +143,9 @@
                                                 <input type="text" class="form-control"
                                                        placeholder="Scanned Card ID" required
                                                        readonly id="scanned-card" name="cardID">
-                                                <small class="form-control-feedback"> *Scan a card and click the button to add the ID</small>
+                                                <small class="form-control-feedback"> *Scan a card and click the button
+                                                    to add the ID
+                                                </small>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -144,13 +164,16 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label">Company</label>
-                                                <select class="form-control custom-select" name="company" required title="company">
+                                                <select class="form-control custom-select" name="company" required
+                                                        title="company">
                                                     <option value="" disabled selected>--Company--</option>
                                                     {% for company in companies %}
                                                         <option value="{{ company.id }}">{{ company.company_name }}</option>
                                                     {% endfor %}
                                                 </select>
-                                                <small class="form-control-feedback"> *Select the company the visitor wants to visit</small>
+                                                <small class="form-control-feedback"> *Select the company the visitor
+                                                    wants to visit
+                                                </small>
                                             </div>
                                         </div>
                                     </div>

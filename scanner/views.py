@@ -3,7 +3,7 @@ from .models import Scan
 
 
 def submit(request, uid):
-    user_id = uid
+    user_id = uid  # decode(uid)
     if user_id != 0:
         s = Scan()
         s.uid = user_id
