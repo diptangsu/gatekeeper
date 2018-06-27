@@ -6,6 +6,7 @@ from scanner.models import Scan
 from django.contrib import messages
 from time import time
 import json
+from gatekeeper.decorators import is_logged_in
 
 
 def login(request):
@@ -16,7 +17,7 @@ def login(request):
         password = request.POST.get('password', None)
         try:
             receptionist = Receptionist.objects.get(email=email, password=password)
-            request.session['receptionist_id'] = receptionist.id
+            request.session['reception_id'] = receptionist.id
             return redirect('reception-dashboard')
         except Receptionist.DoesNotExist:
             try:
@@ -33,27 +34,22 @@ def login(request):
         return render(request, 'reception/login.html')
 
 
+@is_logged_in('reception')
 def dashboard(request):
-    if 'receptionist_id' in request.session:
-        receptionist = Receptionist.objects.get(id=request.session.get('receptionist_id'))
-        return render(request, 'reception/dashboard.html', {'receptionist': receptionist})
-    else:
-        messages.add_message(request, messages.WARNING, 'Please login to visit the dashboard')
-        return redirect('reception-login')
+    receptionist = Receptionist.objects.get(id=request.session.get('reception_id'))
+    return render(request, 'reception/dashboard.html', {'receptionist': receptionist})
 
 
 def logout(request):
     if request.method == 'POST':
-        del request.session['receptionist_id']
+        del request.session['reception_id']
         return redirect('reception-login')
     else:
         raise Http404
 
 
+@is_logged_in('reception')
 def add_visitor(request):
-    if 'receptionist_id' not in request.session:
-        messages.add_message(request, messages.WARNING, 'Please login to add a new visitor')
-        return redirect('reception-login')
     if request.method == 'GET':
         companies = Manager.objects.all()
         return render(request, 'reception/addVisitor.html', {'companies': companies})

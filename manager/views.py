@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import Http404
 from .models import Manager
 from django.contrib import messages
+from gatekeeper.decorators import is_logged_in
 
 
 def login(request):
@@ -29,12 +30,9 @@ def login(request):
         return render(request, 'manager/login.html')
 
 
+@is_logged_in('manager')
 def dashboard(request):
-    if 'manager_id' in request.session:
-        return render(request, 'manager/dashboard.html')
-    else:
-        messages.add_message(request, messages.WARNING, 'Please login to visit the dashboard')
-        return redirect('manager-login')
+    return render(request, 'manager/dashboard.html')
 
 
 def logout(request):
