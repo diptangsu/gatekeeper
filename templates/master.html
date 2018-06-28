@@ -101,6 +101,37 @@
 
 {% endblock %}
 
+<script>
+    {% if messages %}
+        {% for message in messages %}
+
+            // TODO: set f according to message type in all files
+            f = toastr.{{ message.tags }};
+            $(document).ready(function () {
+                f('{{ message }}', '{{ message.tags }}', {
+                    timeOut: 5000,
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": true,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "slideDown",
+                    "hideMethod": "slideUp",
+                    "tapToDismiss": false
+                })
+            });
+
+        {% endfor %}
+    {% endif %}
+</script>
+
 </body>
 
 </html>

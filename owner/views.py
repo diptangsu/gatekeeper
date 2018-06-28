@@ -24,11 +24,11 @@ def login(request):
                 Owner.objects.get(email=email)
             except Owner.DoesNotExist:
                 error = 'Your email does not belong to an account'
-                messages.add_message(request, messages.INFO, error)
+                messages.add_message(request, messages.ERROR, error)
                 return render(request, 'owner/login.html')
             else:
                 error = 'You entered an incorrect password'
-                messages.add_message(request, messages.INFO, error)
+                messages.add_message(request, messages.ERROR, error)
                 return render(request, 'owner/login.html', {'email': request.POST.get('email', None)})
     else:
         return render(request, 'owner/login.html')
