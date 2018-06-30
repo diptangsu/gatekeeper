@@ -108,7 +108,7 @@
             // TODO: set f according to message type in all files
             f = toastr.{{ message.tags }};
             $(document).ready(function () {
-                f('{{ message }}', '{{ message.tags }}', {
+                f('{{ message }}', '{{ message.tags|title }}', {
                     timeOut: 5000,
                     "closeButton": true,
                     "debug": false,

@@ -1,5 +1,4 @@
 from django.db import models
-# from reception.models import Visitor
 
 
 class Manager(models.Model):
@@ -15,6 +14,3 @@ class Manager(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name} | {self.company_name}'
 
-    def get_all_visitors(self):
-        pass
-        # return Visitor.objects.filter(company_to_visit=self)

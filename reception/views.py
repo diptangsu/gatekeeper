@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from .models import Receptionist, Visitor
 from manager.models import Manager
 from scanner.models import Scan
@@ -7,6 +7,8 @@ from django.contrib import messages
 from time import time
 import json
 from gatekeeper.decorators import is_logged_in
+from collections import namedtuple
+from django.utils.timezone import now
 
 
 def login(request):
@@ -36,8 +38,25 @@ def login(request):
 
 @is_logged_in('reception')
 def dashboard(request):
-    receptionist = Receptionist.objects.get(id=request.session.get('reception_id'))
-    return render(request, 'reception/dashboard.html', {'receptionist': receptionist})
+    reception_id = request.session.get('reception_id')
+    receptionist = Receptionist.objects.get(id=reception_id)
+    managers = Manager.objects.all()
+    total_visitors = len(Visitor.objects.all())
+    VisitorInfo = namedtuple('VisitorInfo', 'company visitors percentage')
+    all_visitors = []
+    for manager in managers:
+        v = Visitor.objects.filter(company_to_visit=manager)  # get all visitors for one company/manager
+        vp = round(100. * len(v) / total_visitors)
+        all_visitors.append(VisitorInfo(company=manager.company_name, visitors=v, percentage=vp))
+
+    all_visitors = sorted(all_visitors, key=lambda x: x.percentage, reverse=True)
+
+    return render(request, 'reception/dashboard.html',
+                  {
+                      'receptionist': receptionist,
+                      'all_visitors': all_visitors,
+                      'total_visitors': total_visitors
+                  })
 
 
 @is_logged_in('reception')
@@ -102,6 +121,7 @@ def add_visitor(request):
         visitor.email = email
         visitor.card_id = card_id
         visitor.company_to_visit = company
+        # visitor.in_time = now()
 
         visitor.save()
 
@@ -123,7 +143,6 @@ def scan_card(request):
                 continue
             card = cards[no_of_cards - 1]
             data['uid'] = card.uid
-            card.delete()
             break
 
         return HttpResponse(json.dumps(data), content_type="application/json")
