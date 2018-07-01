@@ -1,8 +1,9 @@
 from django.shortcuts import HttpResponse
 from .models import Scan
-from reception.models import Visitor
+from django.views.decorators.csrf import csrf_exempt
 
 
+@csrf_exempt
 def submit(request, uid):
     user_id = uid  # decode(uid)
     try:

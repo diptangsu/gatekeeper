@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
 from django.http import Http404, HttpResponse, JsonResponse
 from django.contrib import messages
-from time import time
-import json
+from django.utils.timezone import now
 from gatekeeper.decorators import is_logged_in
 from collections import namedtuple
-from django.utils.timezone import now
+from time import time
+import json
 
 from scanner.models import Scan
 from .models import Receptionist, Visitor
@@ -139,6 +140,7 @@ def visitor_reached(request):
     visitor.save()
 
 
+@csrf_exempt
 def visitor_departed(request):
     card_id = 0
     visitor = Visitor.objects.get(card_id=card_id)
@@ -146,6 +148,7 @@ def visitor_departed(request):
     visitor.save()
 
 
+@csrf_exempt
 def scan_card(request):
     if request.method == 'POST':
         data = {'uid': None}
