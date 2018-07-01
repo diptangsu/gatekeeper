@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse, JsonResponse
-from .models import Receptionist, Visitor
-from manager.models import Manager
 from scanner.models import Scan
 from django.contrib import messages
 from time import time
@@ -9,6 +7,9 @@ import json
 from gatekeeper.decorators import is_logged_in
 from collections import namedtuple
 from django.utils.timezone import now
+
+from .models import Receptionist, Visitor
+from manager.models import Manager
 
 
 def login(request):
@@ -46,7 +47,7 @@ def dashboard(request):
     all_visitors = []
     for manager in managers:
         v = Visitor.objects.filter(company_to_visit=manager)  # get all visitors for one company/manager
-        vp = round(100. * len(v) / total_visitors)
+        vp = round(100. * len(v) / total_visitors if total_visitors != 0 else 1)
         all_visitors.append(VisitorInfo(company=manager.company_name, visitors=v, percentage=vp))
 
     all_visitors = sorted(all_visitors, key=lambda x: x.percentage, reverse=True)
@@ -55,7 +56,8 @@ def dashboard(request):
                   {
                       'receptionist': receptionist,
                       'all_visitors': all_visitors,
-                      'total_visitors': total_visitors
+                      'total_visitors': total_visitors,
+                      'total_companies': len(managers)
                   })
 
 
@@ -121,12 +123,22 @@ def add_visitor(request):
         visitor.email = email
         visitor.card_id = card_id
         visitor.company_to_visit = company
-        # visitor.in_time = now()
+        visitor.is_inside_building = True
 
         visitor.save()
 
         messages.add_message(request, messages.INFO, 'Visitor has been added')
         return redirect('reception-dashboard')
+
+
+def visitor_reached(request):
+    # visitor scans the card at the door of the company he wants to visit
+    pass
+
+
+def visitor_departs(request):
+    # visitor re scans the card at the reception
+    pass
 
 
 def scan_card(request):

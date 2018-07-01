@@ -31,9 +31,10 @@ class Visitor(models.Model):
     picture = models.ImageField(upload_to='img/', blank=True, null=True)
     company_to_visit = models.ForeignKey(Manager, on_delete=models.CASCADE, null=True)
     card_id = models.CharField(max_length=255, default=None, null=True)
-    # in_time = models.TimeField(auto_now_add=True)
-    # out_time = models.TimeField(auto_now_add=True)
-    # TODO: add these fields to Visitor
+    in_time = models.DateTimeField(auto_now_add=True)
+    meet_time = models.DateTimeField(default=None)
+    out_time = models.DateTimeField(auto_now=True)
+    is_inside_building = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} -> {self.company_to_visit.company_name}'
