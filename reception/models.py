@@ -34,7 +34,7 @@ class Visitor(models.Model):
     in_time = models.DateTimeField(auto_now_add=True)
     meet_time = models.DateTimeField(default=None)
     out_time = models.DateTimeField(auto_now=True)
-    is_inside_building = models.BooleanField(default=False)
+    is_inside_building = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} -> {self.company_to_visit.company_name}'

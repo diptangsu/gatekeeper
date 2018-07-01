@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse, JsonResponse
-from scanner.models import Scan
 from django.contrib import messages
 from time import time
 import json
@@ -8,6 +7,7 @@ from gatekeeper.decorators import is_logged_in
 from collections import namedtuple
 from django.utils.timezone import now
 
+from scanner.models import Scan
 from .models import Receptionist, Visitor
 from manager.models import Manager
 
@@ -133,12 +133,17 @@ def add_visitor(request):
 
 def visitor_reached(request):
     # visitor scans the card at the door of the company he wants to visit
-    pass
+    card_id = 0
+    visitor = Visitor.objects.get(card_id=card_id)
+    visitor.meet_time = now()
+    visitor.save()
 
 
-def visitor_departs(request):
-    # visitor re scans the card at the reception
-    pass
+def visitor_departed(request):
+    card_id = 0
+    visitor = Visitor.objects.get(card_id=card_id)
+    visitor.is_inside_building = False
+    visitor.save()
 
 
 def scan_card(request):
