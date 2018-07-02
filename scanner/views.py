@@ -55,11 +55,11 @@ def visitor_reached(request):
     try:
         visitor = Visitor.objects.get(card_id=card_id)
     except Visitor.DoesNotExist:
-        pass
+        raise Http404
     else:
         visitor.meet_time = now()
         visitor.save()
-    return HttpResponse(uid)
+    return HttpResponse(uid + ' bhai re')
 
 
 def scan_card(request):  # used for ajax
