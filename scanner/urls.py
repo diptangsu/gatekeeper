@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('submit-card/<int:uid>', views.submit, name='submit-card'),
-    path('issue-card', views.scan_card, name='issue-card'),
-    path('get-scanned-card', views.scan_card, name='get-scanned-card'),
+    path('submit-card', views.submit, name='submit-card'),  # receptionist scan card
+    path('issue-card', views.scan_card, name='issue-card'),  # used for ajax
+    path('visitor-reached', views.visitor_reached, name='visitor-reached'),  # manager scan card
 ]

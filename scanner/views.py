@@ -5,38 +5,61 @@ from django.utils.timezone import now
 from .models import Scan
 from reception.models import Visitor
 from time import time
+from gatekeeper.cipher import decode
+
+
+def visitor_departed(card_id):
+    try:
+        visitor = Visitor.objects.get(card_id=card_id)
+    except Visitor.DoesNotExist:
+        pass
+    else:
+        visitor.is_inside_building = False
+        visitor.save()
 
 
 @csrf_exempt
-def submit(request, uid):
-    user_id = uid  # decode(uid)
+def submit(request):
+    if request.method == 'GET':
+        raise Http404
+
+    uid = request.POST.get('uid', None)
+    if uid is None:
+        raise Http404
+
+    card_id = decode(uid)
     try:
-        card = Scan.objects.get(uid=user_id)
+        card = Scan.objects.get(uid=card_id)
     except Scan.DoesNotExist:
         s = Scan()
-        s.uid = user_id
+        s.uid = card_id
         s.save()
     else:
-        # Visitor.objects.get()
-        # TODO: add out time for Visitor
         visitor_departed(uid)
         card.delete()
     return HttpResponse(uid)
 
 
-def visitor_departed(card_id):
-    visitor = Visitor.objects.get(card_id=card_id)
-    visitor.is_inside_building = False
-    visitor.save()
-
-
 @csrf_exempt
 def visitor_reached(request):
     # visitor scans the card at the door of the company he wants to visit
-    card_id = 0
-    visitor = Visitor.objects.get(card_id=card_id)
-    visitor.meet_time = now()
-    visitor.save()
+    if request.method == 'GET':
+        raise Http404
+
+    uid = request.POST.get('uid', None)
+    if uid is None:
+        raise Http404
+
+    card_id = decode(uid)
+
+    try:
+        visitor = Visitor.objects.get(card_id=card_id)
+    except Visitor.DoesNotExist:
+        pass
+    else:
+        visitor.meet_time = now()
+        visitor.save()
+    return HttpResponse(uid)
 
 
 def scan_card(request):  # used for ajax

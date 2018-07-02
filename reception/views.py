@@ -5,7 +5,7 @@ from gatekeeper.decorators import is_logged_in
 from collections import namedtuple
 from .models import Receptionist, Visitor
 from manager.models import Manager
-from datetime import date, datetime
+from datetime import datetime
 from django.utils import timezone
 
 
@@ -39,15 +39,10 @@ def dashboard(request):
     reception_id = request.session.get('reception_id')
     receptionist = Receptionist.objects.get(id=reception_id)
     managers = Manager.objects.all()
-    total_visitors = len(Visitor.objects.all())
-    VisitorInfo = namedtuple('VisitorInfo', 'company visitors percentage')
-    all_visitors = []
-    for manager in managers:
-        v = Visitor.objects.filter(company_to_visit=manager)  # get all visitors for one company/manager
-        vp = round(100. * len(v) / total_visitors if total_visitors != 0 else 1)
-        all_visitors.append(VisitorInfo(company=manager.company_name, visitors=v, percentage=vp))
 
-    all_visitors = sorted(all_visitors, key=lambda x: x.percentage, reverse=True)
+    total_visitors = len(Visitor.objects.all())
+
+    all_visitors = get_all_visitors_sorted(managers)
 
     today_min = datetime.combine(timezone.now().date(), datetime.today().time().min)
     today_max = datetime.combine(timezone.now().date(), datetime.today().time().max)
@@ -63,6 +58,19 @@ def dashboard(request):
                       'visitors_today': visitors_today,
                       'total_companies': len(managers)
                   })
+
+
+def get_all_visitors_sorted(managers):
+    max_visitors = max(len(Visitor.objects.filter(company_to_visit=manager)) for manager in managers)
+
+    VisitorInfo = namedtuple('VisitorInfo', 'company visitors percentage')
+    all_visitors = []
+    for manager in managers:
+        v = Visitor.objects.filter(company_to_visit=manager)  # get all visitors for one company/manager
+        vp = round(100. * len(v) / max_visitors)
+        all_visitors.append(VisitorInfo(company=manager.company_name, visitors=v, percentage=vp))
+
+    return sorted(all_visitors, key=lambda x: x.percentage, reverse=True)
 
 
 @is_logged_in('reception')
