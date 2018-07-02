@@ -1,8 +1,21 @@
 {% extends 'master.html' %}
 
+{% block header %}
+
+    {% include 'reception/header.html' %}
+
+{% endblock %}
+
+{% block sidebar %}
+
+    {% include 'reception/sidebar.html' %}
+
+{% endblock %}
+
 {% block content %}
 
-    <div id="main-wrapper" style="background-color: #9fff96;">
+    {# TODO: make the margins dyamic if possibl #}
+    <div style="background-color: #9fff96;" class="page-wrapper">
         <div class="container-fluid">
             <!-- Start Page Content -->
             <div class="row" style="color: #454545;">
@@ -239,7 +252,7 @@
                 },
                 function () {
                     $.ajax({
-                        url: "{% url 'scan-card' %}",
+                        url: "{% url 'get-scanned-card' %}",
                         type: "post", // or "get"
                         data: {
                             'csrfmiddlewaretoken': '{{ csrf_token }}'

@@ -1,16 +1,12 @@
 from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_exempt
-from django.http import Http404, HttpResponse, JsonResponse
 from django.contrib import messages
-from django.utils.timezone import now
+from django.http import Http404, JsonResponse
 from gatekeeper.decorators import is_logged_in
 from collections import namedtuple
-from time import time
-import json
-
-from scanner.models import Scan
 from .models import Receptionist, Visitor
 from manager.models import Manager
+from datetime import date, datetime
+from django.utils import timezone
 
 
 def login(request):
@@ -53,11 +49,18 @@ def dashboard(request):
 
     all_visitors = sorted(all_visitors, key=lambda x: x.percentage, reverse=True)
 
+    today_min = datetime.combine(timezone.now().date(), datetime.today().time().min)
+    today_max = datetime.combine(timezone.now().date(), datetime.today().time().max)
+    visitors_today = Visitor.objects.filter(in_time__range=(today_min, today_max)).order_by('-in_time')
+
+    # return JsonResponse({'visitors_today': visitors_today})
+
     return render(request, 'reception/dashboard.html',
                   {
                       'receptionist': receptionist,
                       'all_visitors': all_visitors,
                       'total_visitors': total_visitors,
+                      'visitors_today': visitors_today,
                       'total_companies': len(managers)
                   })
 
@@ -108,7 +111,7 @@ def add_visitor(request):
             # return HttpResponse(json.dumps(data), content_type="application/json")
             return redirect('add-visitor')
 
-        company_id = eval('' + company_id)
+        company_id = eval('' + company_id)  # TODO: change eval to int
         company = Manager.objects.get(id=company_id)
 
         visitor = Visitor()
@@ -130,42 +133,3 @@ def add_visitor(request):
 
         messages.add_message(request, messages.INFO, 'Visitor has been added')
         return redirect('reception-dashboard')
-
-
-def visitor_reached(request):
-    # visitor scans the card at the door of the company he wants to visit
-    card_id = 0
-    visitor = Visitor.objects.get(card_id=card_id)
-    visitor.meet_time = now()
-    visitor.save()
-
-
-@csrf_exempt
-def visitor_departed(request):
-    card_id = 0
-    visitor = Visitor.objects.get(card_id=card_id)
-    visitor.is_inside_building = False
-    visitor.save()
-
-
-@csrf_exempt
-def scan_card(request):
-    if request.method == 'POST':
-        data = {'uid': None}
-        start_scan = time()
-        while True:
-            end_scan = time()
-            if end_scan - start_scan > 3:
-                break
-            cards = Scan.objects.all()
-            no_of_cards = len(cards)
-            if no_of_cards == 0:
-                continue
-            card = cards[no_of_cards - 1]
-            data['uid'] = card.uid
-            break
-
-        return HttpResponse(json.dumps(data), content_type="application/json")
-
-    else:
-        raise Http404
