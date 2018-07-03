@@ -83,8 +83,13 @@ def logout(request):
 @is_logged_in('reception')
 def add_visitor(request):
     if request.method == 'GET':
+        reception_id = request.session.get('reception_id')
+        receptionist = Receptionist.objects.get(id=reception_id)
         companies = Manager.objects.all()
-        return render(request, 'reception/add-visitor.html', {'companies': companies})
+        return render(request, 'reception/add-visitor.html', {
+            'companies': companies,
+            'receptionist': receptionist
+        })
     else:
         first_name = request.POST.get('first_name', None)
         middle_name = request.POST.get('middle_name', None)
@@ -132,7 +137,10 @@ def add_visitor(request):
 
 @is_logged_in('reception')
 def all_visitors(request):
+    reception_id = request.session.get('reception_id')
+    receptionist = Receptionist.objects.get(id=reception_id)
     visitors = Visitor.objects.all()
     return render(request, 'reception/all-visitors.html', {
         'all_visitors': visitors,
+        'receptionist': receptionist
     })
