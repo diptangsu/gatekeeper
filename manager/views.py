@@ -59,3 +59,11 @@ def logout(request):
         return redirect('manager-login')
     else:
         raise Http404
+
+
+@is_logged_in('manager')
+def all_visitors(request):
+    visitors = Visitor.objects.all()
+    return render(request, 'manager/all-visitors.html', {
+        'all_visitors': visitors,
+    })
