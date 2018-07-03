@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
-from .models import Manager
 from django.contrib import messages
 from gatekeeper.decorators import is_logged_in
+from .models import Manager
+from reception.models import Visitor
+from datetime import datetime
+from django.utils import timezone
 
 
 def login(request):
@@ -32,9 +35,24 @@ def login(request):
 
 @is_logged_in('manager')
 def dashboard(request):
-    return render(request, 'manager/dashboard.html')
+    manager_id = request.session.get('manager_id')
+    manager = Manager.objects.get(id=manager_id)
+
+    all_visitors = Visitor.objects.filter(company_to_visit=manager)
+
+    today_min = datetime.combine(timezone.now().date(), datetime.today().time().min)
+    today_max = datetime.combine(timezone.now().date(), datetime.today().time().max)
+    visitors_today = all_visitors.filter(in_time__range=(today_min, today_max)).order_by('-in_time')
+
+    return render(request, 'manager/dashboard.html',
+                  {
+                      'manager': manager,
+                      'all_visitors': all_visitors,
+                      'visitors_today': visitors_today,
+                  })
 
 
+@is_logged_in('manager')
 def logout(request):
     if request.method == 'POST':
         del request.session['manager_id']

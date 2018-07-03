@@ -42,7 +42,7 @@ def dashboard(request):
 
     total_visitors = len(Visitor.objects.all())
 
-    all_visitors = get_all_visitors_sorted(managers)
+    visitors = get_all_visitors_sorted(managers)
 
     today_min = datetime.combine(timezone.now().date(), datetime.today().time().min)
     today_max = datetime.combine(timezone.now().date(), datetime.today().time().max)
@@ -51,7 +51,7 @@ def dashboard(request):
     return render(request, 'reception/dashboard.html',
                   {
                       'receptionist': receptionist,
-                      'all_visitors': all_visitors,
+                      'all_visitors': visitors,
                       'total_visitors': total_visitors,
                       'visitors_today': visitors_today,
                       'total_companies': len(managers)
@@ -62,13 +62,13 @@ def get_all_visitors_sorted(managers):
     max_visitors = max(len(Visitor.objects.filter(company_to_visit=manager)) for manager in managers)
 
     VisitorInfo = namedtuple('VisitorInfo', 'company visitors percentage')
-    all_visitors = []
+    visitors = []
     for manager in managers:
         v = Visitor.objects.filter(company_to_visit=manager)  # get all visitors for one company/manager
         vp = round(100. * len(v) / max_visitors)
-        all_visitors.append(VisitorInfo(company=manager.company_name, visitors=v, percentage=vp))
+        visitors.append(VisitorInfo(company=manager.company_name, visitors=v, percentage=vp))
 
-    return sorted(all_visitors, key=lambda x: x.percentage, reverse=True)
+    return sorted(visitors, key=lambda x: x.percentage, reverse=True)
 
 
 @is_logged_in('reception')
