@@ -3,9 +3,11 @@ from django.shortcuts import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.timezone import now
 from .models import Scan
+from manager.models import Manager
 from reception.models import Visitor
 from time import time
 from gatekeeper.cipher import decode
+from django.contrib import messages
 
 
 def visitor_departed(card_id):
@@ -24,10 +26,11 @@ def submit(request):
         raise Http404
 
     uid = request.POST.get('uid', None)
-    if uid is None:
+    picture = request.FILES.get('image', None)
+    if uid is None and picture is None:
         raise Http404
 
-    card_id = decode(uid)
+    card_id = uid  # decode(uid)
     try:
         card = Scan.objects.get(uid=card_id)
     except Scan.DoesNotExist:
@@ -37,6 +40,8 @@ def submit(request):
     else:
         visitor_departed(uid)
         card.delete()
+        messages.add_message(request, messages.INFO, 'The visitor has departed')
+
     return HttpResponse(uid)
 
 
@@ -47,22 +52,27 @@ def visitor_reached(request):
         raise Http404
 
     uid = request.POST.get('uid', None)
-    if uid is None:
+    company_id = request.POST.get('company_id', None)
+    if uid is None or company_id is None:
         raise Http404
 
-    card_id = decode(uid)
+    card_id = uid  # decode(uid)
 
     try:
+        company = Manager.objects.get(id=company_id)
         visitor = Visitor.objects.get(card_id=card_id)
-    except Visitor.DoesNotExist:
+    except Visitor.DoesNotExist or Manager.DoesNotExist:
         raise Http404
     else:
+        if visitor.company_to_visit != company:
+            raise Http404
         visitor.meet_time = now()
         visitor.save()
-    return HttpResponse(uid + ' bhai re')
+        messages.add_message(request, messages.INFO, 'The visitor has reached the building')
+    return HttpResponse('0')
 
 
-def scan_card(request):  # used for ajax
+def get_scanned_card(request):  # used for ajax
     if request.method == 'POST':
         data = {'uid': None}
         start_scan = time()
@@ -76,6 +86,28 @@ def scan_card(request):  # used for ajax
                 continue
             card = cards[no_of_cards - 1]
             data['uid'] = card.uid
+            break
+
+        return JsonResponse(data)
+
+    else:
+        raise Http404
+
+
+def get_scanned_image(request):  # used for ajax
+    if request.method == 'POST':
+        data = {'image': None}
+        start_scan = time()
+        while True:
+            end_scan = time()
+            if end_scan - start_scan > 3:
+                break
+            cards = Scan.objects.all()
+            no_of_cards = len(cards)
+            if no_of_cards == 0:
+                continue
+            card = cards[no_of_cards - 1]
+            data['image'] = card.image.url
             break
 
         return JsonResponse(data)

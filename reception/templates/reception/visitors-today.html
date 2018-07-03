@@ -1,0 +1,80 @@
+{% load static %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-title">
+                <h4>{% if not visitors_today %}No {% endif %}Visitors Today </h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Company to visit</th>
+                            <th>In Time</th>
+                            <th>Meet Time</th>
+                            <th>Out Time</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for visitor in visitors_today %}
+                            <tr>
+                                <td>
+                                    <div class="round-img">
+                                        <img src="
+                                            {% if visitor.picture %}
+                                                {{ visitor.picture }}
+                                            {% else %}
+                                                {% static 'images/chat-person-add.png' %}
+                                            {% endif %}" alt="visitor image">
+                                    </div>
+                                </td>
+                                <td> {{ visitor.name }}</td>
+                                <td><span>{{ visitor.phone1 }}</span></td>
+                                <td><span>{{ visitor.email }}</span></td>
+                                <td><span>{{ visitor.company_to_visit.company_name }}</span></td>
+                                <td><span>{{ visitor.in_time.time }}</span></td>
+                                <td>
+                                    <span>
+                                        {% if visitor.meet_time %}
+                                            {{ visitor.meet_time.time }}
+                                        {% else %}
+                                            ---
+                                        {% endif %}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>
+                                        {% if visitor.is_inside_building %}
+                                            ---
+                                        {% else %}
+                                            {{ visitor.out_time.time }}
+                                        {% endif %}
+                                    </span>
+                                </td>
+                                {% if visitor.is_inside_building %}
+                                    {% if visitor.meet_time %}
+                                        <td><span class="badge badge-success">Reached</span></td>
+                                    {% else %}
+                                        <td><span class="badge badge-warning">Yet to reach</span></td>
+                                    {% endif %}
+                                {% else %}
+                                    <td><span class="badge badge-info">Departed</span></td>
+                                {% endif %}
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

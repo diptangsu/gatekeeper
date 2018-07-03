@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponse
 from gatekeeper.decorators import is_logged_in
 from collections import namedtuple
 from .models import Receptionist, Visitor
@@ -48,8 +48,6 @@ def dashboard(request):
     today_max = datetime.combine(timezone.now().date(), datetime.today().time().max)
     visitors_today = Visitor.objects.filter(in_time__range=(today_min, today_max)).order_by('-in_time')
 
-    # return JsonResponse({'visitors_today': visitors_today})
-
     return render(request, 'reception/dashboard.html',
                   {
                       'receptionist': receptionist,
@@ -86,7 +84,7 @@ def logout(request):
 def add_visitor(request):
     if request.method == 'GET':
         companies = Manager.objects.all()
-        return render(request, 'reception/addVisitor.html', {'companies': companies})
+        return render(request, 'reception/add-visitor.html', {'companies': companies})
     else:
         first_name = request.POST.get('first_name', None)
         middle_name = request.POST.get('middle_name', None)
@@ -98,23 +96,11 @@ def add_visitor(request):
         email = request.POST.get('email', None)
         #  TODO: Add address variables
         card_id = request.POST.get('card_id', None)
+        image = request.POST.get('visitor_image_url', None)
         company_id = request.POST.get('company', None)
 
-        data = {
-            'first_name': first_name,
-            'middle_name': middle_name,
-            'last_name': last_name,
-            'gender': gender,
-            'dob': dob,
-            'phone1': phone1,
-            'phone2': phone2,
-            'email': email,
-            'card_id': card_id,
-            'company_id': company_id
-        }
-
         if first_name is None or last_name is None or gender is None or dob is None or phone1 is None \
-                or card_id is None or company_id is None or email is None:
+                or card_id is None or company_id is None or email is None or image is None:
             messages.add_message(request, messages.WARNING, 'Required fields must not be empty')
             # return HttpResponse(json.dumps(data), content_type="application/json")
             return redirect('add-visitor')
@@ -134,6 +120,7 @@ def add_visitor(request):
             visitor.phone2 = int(phone2)
         visitor.email = email
         visitor.card_id = card_id
+        visitor.picture = image
         visitor.company_to_visit = company
         visitor.is_inside_building = True
 
@@ -141,3 +128,11 @@ def add_visitor(request):
 
         messages.add_message(request, messages.INFO, 'Visitor has been added')
         return redirect('reception-dashboard')
+
+
+@is_logged_in('reception')
+def all_visitors(request):
+    visitors = Visitor.objects.all()
+    return render(request, 'reception/all-visitors.html', {
+        'all_visitors': visitors,
+    })

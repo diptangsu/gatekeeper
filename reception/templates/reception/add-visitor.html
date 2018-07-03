@@ -14,8 +14,7 @@
 
 {% block content %}
 
-    {# TODO: make the margins dyamic if possibl #}
-    <div style="background-color: #9fff96;" class="page-wrapper">
+    <div style="background-color: #5d7cff;" class="page-wrapper">
         <div class="container-fluid">
             <!-- Start Page Content -->
             <div class="row" style="color: #454545;">
@@ -181,9 +180,39 @@
                                         <div class="col-md-4">
                                             <div class="sweetalert m-t-15">
                                                 <br>
-                                                <button class="btn btn-info btn sweet-ajax btn-rounded"
+                                                <button class="btn btn-info btn sweet-ajax scanned-card btn-rounded"
                                                         id="btn-scan" type="button">
                                                     <i class="fa fa-id-card-o"></i> Scan Card
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 class="box-title m-t-40">Visitor Picture</h3>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Visitor Image</label>
+                                                <input type="image" class="form-control"
+                                                       placeholder="Visitor Image" alt="Visitor Image"
+                                                       id="visitor-image" name="visitor-image"
+                                                       style="height: 200px; width: 200px">
+                                                <input type="text"
+                                                       id="visitor_image_url"
+                                                       value=""
+                                                       name="visitor_image_url"
+                                                       title="visitor_image_url" hidden>
+                                                <small class="form-control-feedback"> *Click picture of the visitor and
+                                                    click the button to add the image
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="sweetalert m-t-15">
+                                                <br>
+                                                <button class="btn btn-info btn visitor-image sweet-ajax btn-rounded"
+                                                        id="btn-image" type="button">
+                                                    <i class="fa fa-image"></i> Fetch Image
                                                 </button>
                                             </div>
                                         </div>
@@ -241,7 +270,7 @@
 
 {% block js %}
     <script>
-        document.querySelector('.sweet-ajax').onclick = function () {
+        document.querySelector('.scanned-card').onclick = function () {
             swal({
                     title: "Scan Card !!",
                     text: "Please scan a card and press OK to get the scanned ID !!",
@@ -268,6 +297,42 @@
                             else {
                                 setTimeout(function () {
                                     sweetAlert("Error", "Scanned card could not be found", "error");
+                                }, 3000);
+                            }
+                        }
+                    });
+                });
+        };
+
+
+        document.querySelector('.visitor-image').onclick = function () {
+            swal({
+                    title: "Fetch Image !!",
+                    text: "Please click the visitor's picture and press OK to get the clicked picture !!",
+                    type: "info",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                },
+                function () {
+                    $.ajax({
+                        url: "{% url 'get-scanned-image' %}",
+                        type: "post",
+                        data: {
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
+                        success: function (data) {
+                            if (data.image != null) {
+                                setTimeout(function () {
+                                    swal("Success", "Visitor image has been registered", "success");
+                                    document.getElementById("visitor-image").src = data.image;
+                                    document.getElementById("visitor_image_url").value = data.image;
+                                    document.getElementById("btn-image").disabled = true;
+                                }, 3000);
+                            }
+                            else {
+                                setTimeout(function () {
+                                    sweetAlert("Error", "Clicked image could not be found", "error");
                                 }, 3000);
                             }
                         }

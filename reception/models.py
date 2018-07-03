@@ -1,6 +1,5 @@
 from django.db import models
 from manager.models import Manager
-from datetime import datetime
 
 
 class Receptionist(models.Model):
@@ -21,13 +20,13 @@ class Visitor(models.Model):
     middle_name = models.CharField(max_length=255, blank=True, null=True)
     last_name = models.CharField(max_length=255, default='Doe')
     gender = models.CharField(max_length=15, default='Flying Fuck')
-    phone1 = models.IntegerField(default=0)
-    phone2 = models.IntegerField(default=0)
+    phone1 = models.CharField(max_length=14, default=None)
+    phone2 = models.CharField(max_length=14, default=None, blank=True, null=True)
     email = models.EmailField(max_length=255, default=None)
     date_of_birth = models.DateField(blank=True, null=True)
     address = models.TextField(default="Hogwarts")
     pin_code = models.IntegerField(default=0)
-    picture = models.ImageField(upload_to='img/', blank=True, null=True)
+    picture = models.CharField(max_length= 255, default=None, blank=True)
     company_to_visit = models.ForeignKey(Manager, on_delete=models.CASCADE, null=True)
     card_id = models.CharField(max_length=255, default=None, null=True)
     in_time = models.DateTimeField(auto_now_add=True)

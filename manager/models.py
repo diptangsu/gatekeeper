@@ -12,5 +12,5 @@ class Manager(models.Model):
     picture = models.ImageField(upload_to='img/', blank=True, null=True)
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name} | {self.company_name}'
+        return f'({self.id}) {self.first_name} {self.last_name} | {self.company_name}'
 

@@ -17,314 +17,249 @@
 
 {% block content %}
 
-<!-- Page wrapper  -->
-<div class="page-wrapper">
-    <!-- Container fluid  -->
-    <div class="container-fluid">
-        <!-- Start Page Content -->
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card p-30">
-                    <div class="media">
-                        <div class="media-left meida media-middle">
-                            <span><i class="fa fa-usd f-s-40 color-primary"></i></span>
-                        </div>
-                        <div class="media-body media-text-right">
-                            <h2>568120</h2>
-                            <p class="m-b-0">Total Revenue</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-30">
-                    <div class="media">
-                        <div class="media-left meida media-middle">
-                            <span><i class="fa fa-shopping-cart f-s-40 color-success"></i></span>
-                        </div>
-                        <div class="media-body media-text-right">
-                            <h2>1178</h2>
-                            <p class="m-b-0">Sales</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <a href="#">
+    <!-- Page wrapper  -->
+    <div class="page-wrapper" style="background: #eceaff;">
+        <!-- Container fluid  -->
+        <div class="container-fluid">
+            <!-- Start Page Content -->
+            <div class="row">
+                <div class="col-md-3">
                     <div class="card p-30">
                         <div class="media">
                             <div class="media-left meida media-middle">
-                                <span><i class="fa fa-archive f-s-40 color-warning"></i></span>
+                                <span><i class="fa fa-usd f-s-40 color-primary"></i></span>
                             </div>
                             <div class="media-body media-text-right">
-                                <h2>{{ total_companies }}</h2>
-                                <p class="m-b-0">Companies</p>
+                                <h2>568120</h2>
+                                <p class="m-b-0">Total Revenue</p>
                             </div>
                         </div>
                     </div>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-30">
-                    <a href="#">
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-30">
                         <div class="media">
                             <div class="media-left meida media-middle">
-                                <span><i class="fa fa-user f-s-40 color-danger"></i></span>
+                                <span><i class="fa fa-shopping-cart f-s-40 color-success"></i></span>
                             </div>
                             <div class="media-body media-text-right">
-                                <h2>{{ total_visitors }}</h2>
-                                <p class="m-b-0">Total Visitors</p>
+                                <h2>1178</h2>
+                                <p class="m-b-0">Sales</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <a href="#">
+                        <div class="card p-30">
+                            <div class="media">
+                                <div class="media-left meida media-middle">
+                                    <span><i class="fa fa-archive f-s-40 color-warning"></i></span>
+                                </div>
+                                <div class="media-body media-text-right">
+                                    <h2>{{ total_companies }}</h2>
+                                    <p class="m-b-0">Companies</p>
+                                </div>
                             </div>
                         </div>
                     </a>
                 </div>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-title">
-                        <h4>Active Visitors </h4>
+                <div class="col-md-3">
+                    <div class="card p-30">
+                        <a href="#">
+                            <div class="media">
+                                <div class="media-left meida media-middle">
+                                    <span><i class="fa fa-user f-s-40 color-danger"></i></span>
+                                </div>
+                                <div class="media-body media-text-right">
+                                    <h2>{{ total_visitors }}</h2>
+                                    <p class="m-b-0">Total Visitors</p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Phone</th>
-                                    <th>Email</th>
-                                    <th>Company to visit</th>
-                                    <th>In Time</th>
-                                    <th>Meet Time</th>
-                                    <th>Status</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for visitor in visitors_today %}
-                                <tr>
-                                    <td>
-                                        <div class="round-img">
+                </div>
+            </div>
+
+            {% include 'reception/visitors-today.html' %}
+
+            <div class="row bg-white m-l-0 m-r-0 box-shadow ">
+
+                <!-- column -->
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Extra Area Chart</h4>
+                            <div id="extra-area-chart">
+                                {# TODO: Koustav's chart generated by matplotlib #}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- column -->
+
+                <!-- column -->
+                <div class="col-lg-4">
+                    <div class="card" style="overflow-y: scroll; height: 400px;">
+                        <div class="card-body browser">
+
+                            {% for company, visitors, percentage in all_visitors %}
+
+                                <p class="{% if forloop.counter != 1 %}m-t-30{% endif %} f-w-600">{{ company }} <span
+                                        class="pull-right">{{ visitors|length }}</span></p>
+                                <div class="progress ">
+                                    <div role="progressbar" style="width: {{ percentage }}%; height:8px;"
+                                         class="progress-bar bg-success wow animated progress-animated">
+                                        <span class="sr-only">{{ visitors|length }}</span>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+                <!-- column -->
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-title">
+                                    <h4>Message </h4>
+                                </div>
+                                <div class="recent-comment">
+                                    <div class="media">
+                                        <div class="media-left">
                                             <a href="#">
-                                                <img src="{% static 'images/avatar/4.jpg' %}" alt="">
+                                                <img alt="..." src="{% static 'images/avatar/1.jpg' %}"
+                                                     class="media-object">
                                             </a>
                                         </div>
-                                    </td>
-                                    <td> {{ visitor.name }}</td>
-                                    <td><span>{{ visitor.phone1 }}</span></td>
-                                    <td><span>{{ visitor.email }}</span></td>
-                                    <td><span>{{ visitor.company_to_visit.company_name }}</span></td>
-                                    <td><span>{{ visitor.in_time.time }}</span></td>
-                                    <td>
-                                        <span>
-                                            {% if visitor.meet_time %}
-                                                {{ visitor.meet_time.time }}
-                                            {% else %}
-                                                ---
-                                            {% endif %}
-                                        </span>
-                                    </td>
-                                    {% if visitor.is_inside_building %}
-                                        {% if visitor.meet_time %}
-                                            <td><span class="badge badge-success">Reached Building</span></td>
-                                        {% else %}
-                                            <td><span class="badge badge-warning">Yet to reach</span></td>
-                                        {% endif %}
-                                    {% else %}
-                                        <td><span class="badge badge-info">Departed</span></td>
-                                    {% endif %}
-                                </tr>
+                                        <div class="media-body">
+                                            <h4 class="media-heading">john doe</h4>
+                                            <p>Cras sit amet nibh libero, in gravida nulla. </p>
+                                            <p class="comment-date">October 21, 2018</p>
+                                        </div>
+                                    </div>
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a href="#"><img alt="" src="{% static 'images/avatar/1.jpg' %}"
+                                                             class="media-object"></a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h4 class="media-heading">john doe</h4>
+                                            <p>Cras sit amet nibh libero, in gravida nulla. </p>
+                                            <p class="comment-date">October 21, 2018</p>
+                                        </div>
+                                    </div>
 
-                                {% endfor %}
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a href="#">
+                                                <img alt="..." src="{% static 'images/avatar/1.jpg' %}"
+                                                     class="media-object">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h4 class="media-heading">john doe</h4>
+                                            <p>hello my name is john doe</p>
+                                            <p class="comment-date">October 21, 2018</p>
+                                        </div>
+                                    </div>
 
-                                </tbody>
-                            </table>
+                                    <div class="media no-border">
+                                        <div class="media-left">
+                                            <a href="#">
+                                                <img alt="..." src="{% static 'images/avatar/1.jpg' %}"
+                                                     class="media-object">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h4 class="media-heading">Mr. Michael</h4>
+                                            <p>hello i am michael </p>
+                                            <div class="comment-date">October 21, 2018</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /# card -->
+                        </div>
+                        <!-- /# column -->
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="year-calendar"></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Todo</h4>
+                            <div class="card-content">
+                                <div class="todo-list">
+                                    <div class="tdl-holder">
+                                        <div class="tdl-content">
+                                            <ul>
+                                                <li>
+                                                    <label>
+                                                        <input type="checkbox"><i class="bg-primary"></i><span>Build an angular app</span>
+                                                        <a href='#' class="ti-close"></a>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="checkbox" checked><i class="bg-success"></i><span>Creating component page</span>
+                                                        <a href='#' class="ti-close"></a>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="checkbox" checked><i class="bg-warning"></i><span>Follow back those who follow you</span>
+                                                        <a href='#' class="ti-close"></a>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="checkbox" checked><i class="bg-danger"></i><span>Design One page theme</span>
+                                                        <a href='#' class="ti-close"></a>
+                                                    </label>
+                                                </li>
+
+                                                <li>
+                                                    <label>
+                                                        <input type="checkbox" checked><i class="bg-success"></i><span>Creating component page</span>
+                                                        <a href='#' class="ti-close"></a>
+                                                    </label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <input type="text" class="tdl-new form-control" placeholder="Type here">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
+            <!-- End PAge Content -->
         </div>
-
-        <div class="row bg-white m-l-0 m-r-0 box-shadow ">
-
-            <!-- column -->
-            <div class="col-lg-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Extra Area Chart</h4>
-                        <div id="extra-area-chart">
-                            {# TODO: Koustav's chart generated by matplotlib #}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- column -->
-
-            <!-- column -->
-            <div class="col-lg-4">
-                <div class="card" style="overflow-y: scroll; height: 400px;">
-                    <div class="card-body browser">
-
-                        {% for company, visitors, percentage in all_visitors %}
-
-                            <p class="{% if forloop.counter != 1 %}m-t-30{% endif %} f-w-600">{{ company }} <span
-                                    class="pull-right">{{ visitors|length }}</span></p>
-                            <div class="progress ">
-                                <div role="progressbar" style="width: {{ percentage }}%; height:8px;"
-                                     class="progress-bar bg-success wow animated progress-animated">
-                                    <span class="sr-only">{{ visitors|length }}</span>
-                                </div>
-                            </div>
-
-                        {% endfor %}
-
-                    </div>
-                </div>
-            </div>
-            <!-- column -->
-        </div>
-
-
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-title">
-                                <h4>Message </h4>
-                            </div>
-                            <div class="recent-comment">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#">
-                                            <img alt="..." src="{% static 'images/avatar/1.jpg' %}"
-                                                 class="media-object">
-                                        </a>
-                                    </div>
-                                    <div class="media-body">
-                                        <h4 class="media-heading">john doe</h4>
-                                        <p>Cras sit amet nibh libero, in gravida nulla. </p>
-                                        <p class="comment-date">October 21, 2018</p>
-                                    </div>
-                                </div>
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#"><img alt="" src="{% static 'images/avatar/1.jpg' %}"
-                                                         class="media-object"></a>
-                                    </div>
-                                    <div class="media-body">
-                                        <h4 class="media-heading">john doe</h4>
-                                        <p>Cras sit amet nibh libero, in gravida nulla. </p>
-                                        <p class="comment-date">October 21, 2018</p>
-                                    </div>
-                                </div>
-
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#">
-                                            <img alt="..." src="{% static 'images/avatar/1.jpg' %}"
-                                                 class="media-object">
-                                        </a>
-                                    </div>
-                                    <div class="media-body">
-                                        <h4 class="media-heading">john doe</h4>
-                                        <p>hello my name is john doe</p>
-                                        <p class="comment-date">October 21, 2018</p>
-                                    </div>
-                                </div>
-
-                                <div class="media no-border">
-                                    <div class="media-left">
-                                        <a href="#">
-                                            <img alt="..." src="{% static 'images/avatar/1.jpg' %}"
-                                                 class="media-object">
-                                        </a>
-                                    </div>
-                                    <div class="media-body">
-                                        <h4 class="media-heading">Mr. Michael</h4>
-                                        <p>hello i am michael </p>
-                                        <div class="comment-date">October 21, 2018</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /# card -->
-                    </div>
-                    <!-- /# column -->
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="year-calendar"></div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Todo</h4>
-                        <div class="card-content">
-                            <div class="todo-list">
-                                <div class="tdl-holder">
-                                    <div class="tdl-content">
-                                        <ul>
-                                            <li>
-                                                <label>
-                                                    <input type="checkbox"><i class="bg-primary"></i><span>Build an angular app</span>
-                                                    <a href='#' class="ti-close"></a>
-                                                </label>
-                                            </li>
-                                            <li>
-                                                <label>
-                                                    <input type="checkbox" checked><i class="bg-success"></i><span>Creating component page</span>
-                                                    <a href='#' class="ti-close"></a>
-                                                </label>
-                                            </li>
-                                            <li>
-                                                <label>
-                                                    <input type="checkbox" checked><i class="bg-warning"></i><span>Follow back those who follow you</span>
-                                                    <a href='#' class="ti-close"></a>
-                                                </label>
-                                            </li>
-                                            <li>
-                                                <label>
-                                                    <input type="checkbox" checked><i class="bg-danger"></i><span>Design One page theme</span>
-                                                    <a href='#' class="ti-close"></a>
-                                                </label>
-                                            </li>
-
-                                            <li>
-                                                <label>
-                                                    <input type="checkbox" checked><i class="bg-success"></i><span>Creating component page</span>
-                                                    <a href='#' class="ti-close"></a>
-                                                </label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <input type="text" class="tdl-new form-control" placeholder="Type here">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <!-- End PAge Content -->
+        <!-- End Container fluid  -->
+        <!-- footer -->
+        <footer class="footer"> © 2018 All rights reserved. Template designed by <a
+                href="#">Colorlib</a></footer>
+        <!-- End footer -->
     </div>
-    <!-- End Container fluid  -->
-    <!-- footer -->
-    <footer class="footer"> © 2018 All rights reserved. Template designed by <a
-            href="#">Colorlib</a></footer>
-    <!-- End footer -->
-</div>
-<!-- End Page wrapper  -->
+    <!-- End Page wrapper  -->
 
 {% endblock %}
