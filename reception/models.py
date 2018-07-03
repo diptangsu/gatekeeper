@@ -26,7 +26,7 @@ class Visitor(models.Model):
     date_of_birth = models.DateField(blank=True, null=True)
     address = models.TextField(default="Hogwarts")
     pin_code = models.IntegerField(default=0)
-    picture = models.CharField(max_length= 255, default=None, blank=True)
+    picture = models.CharField(max_length=255, default=None, blank=True)
     company_to_visit = models.ForeignKey(Manager, on_delete=models.CASCADE, null=True)
     card_id = models.CharField(max_length=255, default=None, null=True)
     in_time = models.DateTimeField(auto_now_add=True)
