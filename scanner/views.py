@@ -36,6 +36,7 @@ def submit(request):
     except Scan.DoesNotExist:
         s = Scan()
         s.uid = card_id
+        s.image = picture
         s.save()
     else:
         visitor_departed(uid)
