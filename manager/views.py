@@ -70,5 +70,6 @@ def all_visitors(request):
     return render(request, 'manager/all-visitors.html',
                   {
                       'manager': manager,
-                      'all_visitors': visitors,
+                      'visitors': visitors,
                   })
+# TODO: get visitors on
