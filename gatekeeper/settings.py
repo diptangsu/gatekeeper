@@ -106,13 +106,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'asgiref.inmemory.ChannelLayer',
-        'ROUTING': 'django_channels.routing.channel_routing',
-    },
-}
-
 LANGUAGE_CODE = 'en-us'
 
 USE_TZ = False
