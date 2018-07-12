@@ -110,7 +110,6 @@
     {% if messages %}
         {% for message in messages %}
 
-            // TODO: set f according to message type in all files
             f = toastr.{{ message.tags }};
             $(document).ready(function () {
                 f('{{ message }}', '{{ message.tags|title }}', {

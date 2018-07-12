@@ -6,6 +6,7 @@ from .models import Manager
 from reception.models import Visitor
 from datetime import datetime
 from django.utils import timezone
+import pusher
 
 
 def login(request):
@@ -28,7 +29,7 @@ def login(request):
             else:
                 error = 'You entered an incorrect password'
                 messages.add_message(request, messages.ERROR, error)
-                return render(request, 'manager/login.html', {'email': request.POST.get('email', None)})
+                return render(request, 'manager/login.html', {'email': email})
     else:
         return render(request, 'manager/login.html')
 

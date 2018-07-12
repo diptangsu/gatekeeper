@@ -7,6 +7,15 @@ from .models import Receptionist, Visitor
 from manager.models import Manager
 from datetime import datetime
 from django.utils import timezone
+import pusher
+
+pusher_client = pusher.Pusher(
+        app_id='558783',
+        key='42f9ee7dff98a91b754c',
+        secret='8d636a26b6180cd288e1',
+        cluster='ap2',
+        ssl=True
+    )
 
 
 def login(request):
@@ -140,6 +149,9 @@ def all_visitors(request):
     reception_id = request.session.get('reception_id')
     receptionist = Receptionist.objects.get(id=reception_id)
     visitors = Visitor.objects.all()
+
+    pusher_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
+
     return render(request, 'reception/all-visitors.html', {
         'all_visitors': visitors,
         'receptionist': receptionist

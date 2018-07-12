@@ -73,7 +73,8 @@
                                             <td style="color: #6a6a6a;"> {{ visitor.name }}</td>
                                             <td style="color: #6a6a6a;"><span>{{ visitor.phone1 }}</span></td>
                                             <td style="color: #6a6a6a;"><span>{{ visitor.email }}</span></td>
-                                            <td style="color: #6a6a6a;"><span>{{ visitor.company_to_visit.company_name }}</span></td>
+                                            <td style="color: #6a6a6a;">
+                                                <span>{{ visitor.company_to_visit.company_name }}</span></td>
                                             <td style="color: #6a6a6a;"><span>{{ visitor.in_time.time }}</span></td>
                                             <td style="color: #6a6a6a;">
                                                 <span>
@@ -130,5 +131,29 @@
     <script src="{% static 'js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js' %}"></script>
     <script src="{% static 'js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js' %}"></script>
     <script src="{% static 'js/lib/datatables/datatables-init.js' %}"></script>
+
+    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+
+    <script>
+
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        const pusher = new Pusher('42f9ee7dff98a91b754c', {
+            cluster: 'ap2',
+            encrypted: true
+        });
+
+        const channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function (data) {
+            alert(JSON.stringify(data));
+        });
+
+        const channel2 = pusher.subscribe('my-channel2');
+        channel2.bind('my-event', function (data) {
+            alert(JSON.stringify(data));
+        });
+
+    </script>
 
 {% endblock %}
