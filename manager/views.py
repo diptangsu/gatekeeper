@@ -67,7 +67,7 @@ def all_visitors(request):
     manager_id = request.session.get('manager_id')
     manager = Manager.objects.get(id=manager_id)
 
-    visitors = Visitor.objects.all()
+    visitors = Visitor.objects.filter(company_to_visit=manager)
     return render(request, 'manager/all-visitors.html',
                   {
                       'manager': manager,

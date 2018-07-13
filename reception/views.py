@@ -8,6 +8,8 @@ from manager.models import Manager
 from datetime import datetime
 from django.utils import timezone
 import pusher
+from django.forms.models import model_to_dict
+import json
 
 pusher_client = pusher.Pusher(
         app_id='558783',
@@ -116,7 +118,6 @@ def add_visitor(request):
         if first_name is None or last_name is None or gender is None or dob is None or phone1 is None \
                 or card_id is None or company_id is None or email is None or image is None:
             messages.add_message(request, messages.WARNING, 'Required fields must not be empty')
-            # return HttpResponse(json.dumps(data), content_type="application/json")
             return redirect('add-visitor')
 
         company_id = eval('' + company_id)  # TODO: change eval to int
@@ -136,9 +137,11 @@ def add_visitor(request):
         visitor.card_id = card_id
         visitor.picture = image
         visitor.company_to_visit = company
-        visitor.is_inside_building = True
 
         visitor.save()
+
+        data = model_to_dict(visitor)
+        pusher_client.trigger('my-channel', str(visitor.company_to_visit_id), data)
 
         messages.add_message(request, messages.INFO, 'Visitor has been added')
         return redirect('reception-dashboard')
@@ -150,7 +153,18 @@ def all_visitors(request):
     receptionist = Receptionist.objects.get(id=reception_id)
     visitors = Visitor.objects.all()
 
-    pusher_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
+    # TODO: company_id visitor_name
+    visitor = {
+        'picture': None,
+        'name': 'Dip',
+        'phone': '1234',
+        'email': 'd@d.com',
+        'company_to_visit': 'Company Demo',
+        'in_time': '10:10',
+        'is_inside_building': True,
+    }
+
+    pusher_client.trigger('my-channel', '3', visitor)
 
     return render(request, 'reception/all-visitors.html', {
         'all_visitors': visitors,

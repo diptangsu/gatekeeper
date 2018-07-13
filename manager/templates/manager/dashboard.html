@@ -143,8 +143,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
 
@@ -210,5 +208,56 @@
         <!-- End footer -->
     </div>
     <!-- End Page wrapper  -->
+
+{% endblock %}
+
+{% block js %}
+
+    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+
+    <script>
+
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        const pusher = new Pusher('42f9ee7dff98a91b754c', {
+            cluster: 'ap2',
+            encrypted: true
+        });
+
+        const channel = pusher.subscribe('my-channel');
+        channel.bind('{{ manager.id }}', function (data) {
+            toastr.info(data.name, 'New Visitor');
+
+            const table = document.getElementById("visitors_today").getElementsByTagName('tbody')[0];
+            let row = table.insertRow(0);
+
+            let picture = row.insertCell(0);
+            let name = row.insertCell(1);
+            let phone = row.insertCell(2);
+            let email = row.insertCell(3);
+            let company_to_visit = row.insertCell(4);
+            let in_time = row.insertCell(5);
+            let meet_time = row.insertCell(6);
+            let out_time = row.insertCell(7);
+            let status = row.insertCell(8);
+
+            {#name.style.color = '#000000';#}
+
+            picture.innerHTML = `<div class="round-img">
+                                <img src="${data.picture}">
+                                </div>`;
+            name.innerHTML = data.name;
+            phone.innerHTML = data.phone;
+            email.innerHTML = data.email;
+            company_to_visit.innerHTML = data.company_to_visit;
+            in_time.innerHTML = data.in_time;
+            meet_time.innerHTML = "---";
+            out_time.innerHTML = "---";
+            status.innerHTML = "<span class=\"badge badge-warning\">Yet to reach</span></td>";
+
+        });
+
+    </script>
 
 {% endblock %}
