@@ -1,0 +1,50 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+    {{ visitor.name }}
+{% endblock %}
+
+{% block header %}
+    {% include 'reception/header.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'reception/sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="page-wrapper">
+            <div class="container-fluid">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ visitor.name }}</h4>
+                            <hr>
+                            <div class="tab-content br-n pn">
+                                <div class="tab-pane active show">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <img src="{{ visitor.picture }}" class="img-fluid thumbnail m-r-15">
+                                        </div>
+                                        <div class="col-md-8"> Raw denim you probably haven't heard of them jean shorts
+                                            Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache
+                                            cliche tempor, williamsburg carles vegan helvetica.
+                                            <p>
+                                                <br> Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby
+                                                sweater eu banh mi, qui irure terry richardson ex squid.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

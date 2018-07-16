@@ -10,13 +10,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    {% block meta %}
-
-    {% endblock %}
-
     <!-- Favicon icon -->
     <link rel="shortcut icon" type="image/png" sizes="16x16" href="{% static 'images/favicon.png' %}">
-    <title>Building Name</title>
+    <title>{% block title %} {% endblock %}</title>
     <!-- Bootstrap Core CSS -->
     <link href="{% static 'css/lib/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
     <!-- Custom CSS -->
@@ -30,6 +26,10 @@
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
     <link href="{% static 'css/lib/sweetalert/sweetalert.css' %}" rel="stylesheet">
+
+    {% block meta %}
+
+    {% endblock %}
 
 </head>
 

@@ -67,10 +67,14 @@ def all_visitors(request):
     manager_id = request.session.get('manager_id')
     manager = Manager.objects.get(id=manager_id)
 
-    visitors = Visitor.objects.filter(company_to_visit=manager)
+    today_min = datetime.combine(timezone.now().date(), datetime.today().time().min)
+    today_max = datetime.combine(timezone.now().date(), datetime.today().time().max)
+    visitors = Visitor.objects.filter(company_to_visit=manager) \
+        .filter(in_time__range=(today_min, today_max)).order_by('-in_time')
+
     return render(request, 'manager/all-visitors.html',
                   {
                       'manager': manager,
                       'visitors': visitors,
                   })
-# TODO: get visitors on
+# TODO: get visitors on 

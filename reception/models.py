@@ -35,7 +35,8 @@ class Visitor(models.Model):
     is_inside_building = models.BooleanField(default=True)
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name} -> {self.company_to_visit.company_name} | {self.in_time.date()}'
+        return f'({self.id}) {self.first_name} {self.last_name} -> ' \
+               f'{self.company_to_visit.company_name} | {self.in_time.date()}'
 
     def name(self):
         full_name = self.first_name
