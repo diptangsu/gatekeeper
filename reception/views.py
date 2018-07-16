@@ -176,9 +176,14 @@ def all_visitors(request):
     })
 
 
+@is_logged_in('reception')
 def visitor_details(request, visitor_id):
+    reception_id = request.session.get('reception_id')
+    receptionist = Receptionist.objects.get(id=reception_id)
+
     visitor = get_object_or_404(Visitor, id=visitor_id)
 
     return render(request, 'reception/visitor-details.html', {
-        'visitor': visitor
+        'visitor': visitor,
+        'receptionist': receptionist
     })
