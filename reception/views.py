@@ -182,8 +182,11 @@ def visitor_details(request, visitor_id):
     receptionist = Receptionist.objects.get(id=reception_id)
 
     visitor = get_object_or_404(Visitor, id=visitor_id)
+    visitor_visits = Visitor.objects.filter(email=visitor.email)\
+        .values('card_id', 'company_to_visit', 'in_time', 'meet_time', 'out_time', 'is_inside_building')
 
     return render(request, 'reception/visitor-details.html', {
         'visitor': visitor,
-        'receptionist': receptionist
+        'receptionist': receptionist,
+        'visitor_visits': visitor_visits,
     })

@@ -22,22 +22,105 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">{{ visitor.name }}</h4>
+                            <div class="row">
+                                <div class="media col-lg-12">
+                                    <div class="media-left meida media-middle">
+                                        <i class="fa fa-{{ visitor.gender }} f-s-40 color-danger"></i>
+                                    </div>
+                                    <div class="media-body media-text-left col-lg-10">
+                                        <h1>{{ visitor.name | title }}</h1>
+                                    </div>
+                                </div>
+                            </div>
                             <hr>
                             <div class="tab-content br-n pn">
                                 <div class="tab-pane active show">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3 p-20 m-l-30 m-r-30 card">
                                             <img src="{{ visitor.picture }}" class="img-fluid thumbnail m-r-15">
                                         </div>
-                                        <div class="col-md-8"> Raw denim you probably haven't heard of them jean shorts
-                                            Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache
-                                            cliche tempor, williamsburg carles vegan helvetica.
-                                            <p>
-                                                <br> Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby
-                                                sweater eu banh mi, qui irure terry richardson ex squid.</p>
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="card">
+                                                        <div class="media">
+                                                            <div class="media-left meida media-middle">
+                                                            <span><i class="fa fa-phone f-s-40 color-success p-10"
+                                                                     aria-hidden="true"></i></span>
+                                                            </div>
+                                                            <div class="media-body media-text-right">
+                                                                <h3>{{ visitor.phone1 }}</h3>
+                                                                <p class="m-b-0">Primary Phone</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="card">
+                                                        <div class="media">
+                                                            <div class="media-left meida media-middle">
+                                                            <span><i
+                                                                    class="fa fa-phone f-s-40 {% if visitor.phone2 %}color-success{% else %}color-grey{% endif %} p-10"
+                                                                    aria-hidden="true"></i>
+                                                            </span>
+                                                            </div>
+                                                            <div class="media-body media-text-right">
+                                                                <h3>{% if visitor.phone2 %}
+                                                                    {{ visitor.phone2 }}{% else %}
+                                                                    _{% endif %}</h3>
+                                                                <p class="m-b-0">Secondary Phone</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <a href="mailto:{{ visitor.email }}" target="_blank">
+                                                        <div class="card">
+                                                            <div class="media">
+                                                                <div class="media-left meida media-middle">
+                                                            <span><i class="fa fa-envelope-o f-s-40 color-success p-10"
+                                                                     aria-hidden="true"></i></span>
+                                                                </div>
+                                                                <div class="media-body media-text-right">
+                                                                    <h3>{{ visitor.email }}</h3>
+                                                                    <p class="m-b-0">Email</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="card">
+                                                        <div class="media">
+                                                            <div class="media-left meida media-middle">
+                                                            <span>
+                                                                <i class="fa fa-globe f-s-40 color-success p-10"
+                                                                   aria-hidden="true"></i>
+                                                            </span>
+                                                            </div>
+                                                            <div class="media-body media-text-right">
+                                                                {% autoescape off %}
+                                                                    <h3>{{ visitor.address | linebreaksbr }}</h3>
+                                                                {% endautoescape %}
+                                                                <h3>PIN: {{ visitor.pin_code }}</h3>
+                                                                <p class="m-b-0">Address</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="media col-lg-3">
                                 </div>
                             </div>
                         </div>
