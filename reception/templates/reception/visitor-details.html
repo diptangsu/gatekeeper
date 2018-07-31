@@ -116,15 +116,19 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="media col-lg-3">
+                    {% for visitor_visit in visitor_visits %}
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="media col-lg-12">
+                                        {{ visitor_visit|pprint }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
