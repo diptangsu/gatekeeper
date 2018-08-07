@@ -1,0 +1,101 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}
+    Add Employees
+{% endblock %}
+
+{% block header %}
+    {% include 'manager/header.html' %}
+{% endblock %}
+
+{% block css %}
+
+    <link href="http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700" rel='stylesheet'/>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/lib/dropzone/dropzone.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'manager/sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="page-wrapper">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Upload CSV</h4>
+                                    <h6 class="card-subtitle">
+                                        Drag and drop the csv file containing the employee details for your company.
+                                    </h6>
+                                    <form action="{% url 'manager-add-employees' %}" {% comment %}class="dropzone dz-clickable"{% endcomment %}
+                                          method="post" enctype="multipart/form-data">
+                                        {#                                        <div class="dz-default dz-message">#}
+                                        {#                                            <span>Drop files here to upload</span>#}
+                                        {#                                        </div>#}
+                                        {% csrf_token %}
+                                        <input type="file" class="form-control upload-csv"
+                                               placeholder="Employee Details" alt="Employee Details"
+                                               id="employee-details" name="employee-details" required>
+                                        <br>
+                                        <button type="submit" class="btn btn-success btn-rounded">
+                                            <i class="fa fa-check"></i> Add Employees
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/lib/dropzone/dropzone.js' %}"></script>
+
+    <script>
+        document.querySelector('.upload-csv').onclick = function () {
+            swal({
+                    title: "Upload !!",
+                    text: "Press OK to register the employees !!",
+                    type: "info",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                },
+                function () {
+                    $.ajax({
+                        url: "{% url 'manager-upload-csv' %}",
+                        type: "post", // or "get"
+                        data: {
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
+                        success: function (data) {
+                            if (data.uid != null) {
+                                setTimeout(function () {
+                                    swal("Success", "The employees will be added", "success");
+                                }, 1000);
+                            }
+                            else {
+                                setTimeout(function () {
+                                    sweetAlert("Error", "The file couldn't be uploaded, Please try again", "error");
+                                }, 2000);
+                            }
+                        }
+                    });
+                }
+            );
+        };
+    </script>
+{% endblock %}
